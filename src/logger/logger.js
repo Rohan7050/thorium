@@ -1,7 +1,7 @@
 let url = "google"
-function myFunc(msg){
+function welcome(msg){
     console.log(msg)
 }
 
 module.exports.url = url;
-module.exports.myFunc = myFunc
+module.exports.welcome = welcome
