@@ -8,6 +8,8 @@ const arr3 = [4, 6, 1, 2]
 const arr4 = [6, 9, 1, 4]
 const arr5 = [0, 5, 2, 5]
 
+const dict =  [['horror','The Shining'],['drama','Titanic'],['thriller','Shutter Island'],['fantasy','Pans Labyrinth']]
+
 function arrSpliter(){
     console.log(lodash.chunk(month, 3))
 }
@@ -20,6 +22,11 @@ function arrUnion(){
     console.log(lodash.union(arr1, arr2, arr3, arr4, arr5))
 }
 
+function getPairs (){
+    console.log(lodash.fromPairs(dict))
+}
+
 module.exports.arrSpliter = arrSpliter
 module.exports.giveTail = giveTail
 module.exports.arrUnion = arrUnion
+module.exports.getPairs = getPairs

@@ -22,6 +22,7 @@ router.get("/hello", function(req, res){
     console.log(lod.arrSpliter())
     console.log(lod.giveTail())
     console.log(lod.arrUnion())
+    console.log(lod.getPairs())
 })
 
 module.exports = router;
