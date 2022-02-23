@@ -70,4 +70,23 @@ router.post("/test-post-4", function(req, res) {
     res.send(  { msg: arr , status: true }  )
 })
 
+const player = []
+router.post("/players", function(req, res){
+    const playerInfo = {}
+    let name = req.body.name
+    let dob = req.body.dob
+    let gender = req.body.gender
+    let city = req.body.city
+    let sports = req.body.sports
+    let bookings = []
+    playerInfo.name = name
+    playerInfo.dob = dob
+    playerInfo.gender = gender
+    playerInfo.city = city
+    playerInfo.sports = sports
+    playerInfo.booking = bookings
+    player.push(playerInfo)
+    res.send(player)
+})
+
 module.exports = router;
