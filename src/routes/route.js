@@ -73,17 +73,11 @@ router.post("/test-post-4", function(req, res) {
 const player =
 [ 
     {
-
   "name": "manish",
-
   "dob": "1/1/1995",
-
   "gender": "male",
-
   "city": "jalandhar",
-
   "sports": ["swimming"],
-
   "bookings": 
         [
             {
@@ -114,15 +108,10 @@ const player =
     {
 
   "name": "gopal",
-
   "dob": "1/23/1995",
-
   "gender": "male",
-
   "city": "pune",
-
   "sports": ["swimming","footbal"],
-
   "bookings": 
         [
             {
@@ -140,7 +129,7 @@ const player =
 
 ]
 
-// const player = []
+
 router.post("/players", function(req, res){
     const playerInfo = {}
     let name = req.body.name.toLowerCase()
@@ -195,7 +184,7 @@ router.get("/allPlayer", function(req, res){
 router.post("/players/:playerName/bookings/:bookingId", function (req, res){
     let playerName = req.params.playerName.toLocaleLowerCase()
     let bookingId = req.params.bookingId
-    let bookingNumber = req.body.bookingNumber
+    let bookingNumber = parseInt(bookingId)
     let sportId = req.body.sportId
     let centerId = req.body.centerId
     let type = req.body.type
@@ -212,17 +201,22 @@ router.post("/players/:playerName/bookings/:bookingId", function (req, res){
     bookingObject.bookedFor = bookedFor
     for (let i = 0; i < player.length; i++){
         if (playerName === player[i].name){
-            // for (let i = 0; i < player.booking.length; i++){
-            //     if (player.booking[i].bookingNumber == bookingId){
-            //         res.send({ID: bookingId, exist: true})
-            //     }
-            // }
-            
-            player.booking.push(bookingObject)
-            res.send(player)
+            // res.send(player[i])
+            let presentIds = player[i].bookings.map((x) => x.bookingNumber)
+            // res.send(presentIds)
+            // let check = presentIds.includes(bookingNumber)
+            // res.send({status: check, idArray: presentIds, inputId: bookingId})
+            if (presentIds.includes(bookingNumber)){
+                // res.send(player.bookings)
+                res.send({id: bookingId, status: "already exist"})
+            }else{
+                player[i].bookings.push(bookingObject)
+                res.send(player[i])
+            }     
         }
     }
-    res.send({name: playerName, id: bookingId})
+    res.send({name: playerName, status: "does not exist" })
+        
 })
 
 module.exports = router;
