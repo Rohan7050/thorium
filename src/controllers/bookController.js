@@ -3,7 +3,6 @@ const BookModel= require("../models/bookModel")
 
 const createBook= async function (req, res) {
     let data= req.body
-
     let savedData= await BookModel.create(data)
     res.send({msg: savedData})
 }
@@ -80,6 +79,47 @@ const getBooksData= async function (req, res) {
     res.send({msg: allBooks})
 }
 
+const bookList = async function (req, res){
+    const allBooks = await BookModel.find().select({bookName: 1, authorName: 1, _id:0})
+    res.send(allBooks)
+}
 
+const getBooksInYear = async function (req, res){
+    const { year } = req.body
+    const bookByYear = await BookModel.find({year: year})
+    res.send(bookByYear)
+}
+
+const getRandomBooks = async function (req, res){
+    const biggerBooks = await BookModel.find({totalPages: {$gte: 500}}) 
+    res.send(biggerBooks)
+}
+
+const getParticularBooks = async function(req, res){
+    const data = req.body
+    // let keyArr = Object.keys(data)
+    // let key = keyArr[0]
+    // console.log(keyArr)
+    const randomInput = await BookModel.find(data)
+    res.send(randomInput)
+}
+
+const getXINRBooks = async function(req, res){
+    const filter = await BookModel.find({ $or: [  {totalPages: {$eq: 100}} ,  {year: {$eq: 2010}},  {"prices.indianPrice": {$eq: "500IRN"}}  ]})
+    res.send(filter)
+}
+
+
+// if (bookByYear.length === 0){
+//     return res.send({})
+// }
+// { 
+//     $or: [ {prices.indianPrice : {$eq: "100INR"} } , {prices.indianPrice : {$eq: "200INR"} } , {prices.indianPrice : {$eq: "500INR"} }]
+// }
 module.exports.createBook= createBook
 module.exports.getBooksData= getBooksData
+module.exports.bookList = bookList
+module.exports.getBooksInYear = getBooksInYear
+module.exports.getRandomBooks =getRandomBooks
+module.exports.getParticularBooks = getParticularBooks
+module.exports.getXINRBooks = getXINRBooks
