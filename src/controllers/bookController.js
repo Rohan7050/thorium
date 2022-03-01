@@ -104,18 +104,12 @@ const getParticularBooks = async function(req, res){
     res.send(randomInput)
 }
 
-// const getXINRBooks = async function(req, res){
-//     const filter = await BookModel.find({ $or: [  {totalPages: {$eq: 100}} ,  {year: {$eq: 2010}},  {"prices.indianPrice": {$eq: "500IRN"}}  ]})
-//     res.send(filter)
-// }
+const getXINRBooks = async function(req, res){
+    let books = await BookModel.find({"prices.indianPrice": {$in:["100INR", "500INR", "200INR"]}})
+    res.send(books)
+}
 
 
-// if (bookByYear.length === 0){
-//     return res.send({})
-// }
-// { 
-//     $or: [ {prices.indianPrice : {$eq: "100INR"} } , {prices.indianPrice : {$eq: "200INR"} } , {prices.indianPrice : {$eq: "500INR"} }]
-// }
 module.exports.createBook= createBook
 module.exports.getBooksData= getBooksData
 module.exports.bookList = bookList
