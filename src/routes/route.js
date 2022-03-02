@@ -11,16 +11,16 @@ router.get("/test", function (req, res) {
 })
 
 // for book
-router.post("/createBook", bookController.createBook)
+router.post("/createBook", bookController.createBook) // create book
 
-router.get("/getBookAndPopulate", bookController.getBookAndPopulate)
+router.get("/getBookAndPopulate", bookController.getBookAndPopulate) // populate book 
 
 // for author
-router.post("/createAuthor", authorController.createAuthor)
+router.post("/createAuthor", authorController.createAuthor) // create author
 
 
 //for publisher
-router.post("/createPublisher", publisherController.createPublisher)
+router.post("/createPublisher", publisherController.createPublisher) // create publisher
 
 
 //********************************************************************************** */
