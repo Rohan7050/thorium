@@ -1,4 +1,5 @@
 const { count } = require("console")
+const { updateMany } = require("../models/authorModel")
 const authorModel = require("../models/authorModel")
 const bookModel= require("../models/bookModel")
 const puulisherModel = require("../models/publisherModel")
@@ -22,13 +23,27 @@ const createBook = async function (req, res){
 }
 
 const getBookAndPopulate = async function(req, res){
-    const BookpopulateData = await bookModel.findOne().populate("author").populate("publisher")
+    const BookpopulateData = await bookModel.find().populate("author").populate("publisher")
     res.send(BookpopulateData)
 }
 
+// for put req
+const putBook = async function (req, res){
+    const update = await bookModel.updateMany({$or: [{"publisher": "621f63414bce00aef0dd4378"}, {"publisher": "62207207786c1cb71a42327d"}]},{"isHardCover": false}, {new:true})
+    res.send(update)
+}
+
+const updatePriceByRatings = async function (req, res){
+    const updatePrice = await bookModel.updateMany({ratings: {$gt: 3.5}},{"price": 100}, {new:true})
+    res.send(updatePrice)
+}
+
+
+
 module.exports.createBook = createBook
 module.exports.getBookAndPopulate = getBookAndPopulate
-
+module.exports.putBook = putBook
+module.exports.updatePriceByRatings = updatePriceByRatings
 
 
 
