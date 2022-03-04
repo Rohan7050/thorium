@@ -2,13 +2,13 @@ const { count } = require("console")
 const { updateMany } = require("../models/authorModel")
 const authorModel = require("../models/authorModel")
 const bookModel= require("../models/bookModel")
-const puulisherModel = require("../models/publisherModel")
+const publisherModel = require("../models/publisherModel")
 
 const createBook = async function (req, res){
     const data = req.body;
     if (data.author && data.publisher){
         const author = await authorModel.findOne({_id: {$in: data.author}})
-        const publisher = await puulisherModel.findOne({_id: {$in: data.publisher}})
+        const publisher = await publisherModel.findOne({_id: {$in: data.publisher}})
         if (!author){
             return res.send({Err:"author not present in DB"})
         }
@@ -28,22 +28,30 @@ const getBookAndPopulate = async function(req, res){
 }
 
 // for put req
-const putBook = async function (req, res){
-    const update = await bookModel.updateMany({$or: [{"publisher": "621f63414bce00aef0dd4378"}, {"publisher": "62207207786c1cb71a42327d"}]},{"isHardCover": false}, {new:true})
-    res.send(update)
-}
 
+// for changing isHardCover to true
+const putBook = async function (req,res){
+    const Id = await publisherModel.find({$or: [{name:"Penguin"},{name:"HarperCollins"}]}).select({_id:1})
+    for(let i =0; i<Id.length; i++){
+         await bookModel.updateMany({publisher: Id[i]._id}, {isHardCover: true})
+    } 
+    res.send({msg:"done"}) 
+}
+// for incresing price by 10
 const updatePriceByRatings = async function (req, res){
-    const updatePrice = await bookModel.updateMany({ratings: {$gt: 3.5}},{"price": 100}, {new:true})
-    res.send(updatePrice)
+    const author = await authorModel.find({ratings: {$gt : 3.5}}).select({_id: 1})
+    for (let i = 0; i < author.length; i++){
+        await bookModel.updateMany({author: {$eq: author[i]._id}},{$inc: {price: 10}}, {new:true})
+    }
+    res.send({status: "Done"})
+    //res.send(updatePrice)
 }
-
-
 
 module.exports.createBook = createBook
 module.exports.getBookAndPopulate = getBookAndPopulate
 module.exports.putBook = putBook
 module.exports.updatePriceByRatings = updatePriceByRatings
+
 
 
 

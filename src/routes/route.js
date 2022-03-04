@@ -17,7 +17,7 @@ router.get("/getBookAndPopulate", bookController.getBookAndPopulate) // populate
 
 router.put("/putBook", bookController.putBook)// for updating isHardCover equal to true for 2 authors
 
-router.put("/updatePriceByRatings", bookController.updatePriceByRatings)
+router.put("/updatePriceByRatings", bookController.updatePriceByRatings)// for updating prices
 
 // for author
 router.post("/createAuthor", authorController.createAuthor) // create author
