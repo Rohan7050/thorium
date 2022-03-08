@@ -19,17 +19,6 @@ const login = async function (req, res){
 }
 
 const getUserData1 = async function(req, res){
-  // let token = req.headers["x-Auth-token"]
-  // if(!token){
-  //   token = req.headers["x-auth-token"];
-  // }
-  // if(!token){
-  //   return res.send({Err: "token must be present in header"})
-  // }
-  // const decodedToken = jwt.verify(token, "kurama")
-  // if(!decodedToken){
-  //   return res.send({Err: "invalid token"})
-  // }
   const {userId} = req.params;
   let userD = await userModel.findById(userId)
   if (!userD){
@@ -39,17 +28,6 @@ const getUserData1 = async function(req, res){
 }
 
 const updateUser = async function (req, res) {
-  let token = req.headers["x-Auth-token"]
-  if(!token){
-    token = req.headers["x-auth-token"];
-  }
-  if(!token){
-    return res.send({Err: "token must be present in header"})
-  }
-  const decodedToken = jwt.verify(token, "kurama")
-  if(!decodedToken){
-    return res.send({Err: "invalid token"})
-  }
   let userId = req.params.userId;
   let user = await userModel.findById(userId);
   //Return an error if no user with the given id exists in the db
@@ -59,21 +37,10 @@ const updateUser = async function (req, res) {
 
   let userData = req.body;
   let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData, {new: true});
-  res.send({ status: updatedUser, data: updatedUser });
+  res.send({ status: true, data: updatedUser });
 };
 
 const deleteUser = async function (req, res){
-  let token = req.headers["x-Auth-token"]
-  if(!token){
-    token = req.headers["x-auth-token"];
-  }
-  if(!token){
-    return res.send({Err: "token must be present in header"})
-  }
-  const decodedToken = jwt.verify(token, "kurama")
-  if(!decodedToken){
-    return res.send({Err: "invalid token"})
-  }
   let userId = req.params.userId;
   let user = await userModel.findById(userId);
 

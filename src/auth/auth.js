@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const md1 = function(req, res, next){
-    let token = req.headers["x-Auth-token"]
+  let token = req.headers["x-Auth-token"]
   if(!token){
     token = req.headers["x-auth-token"];
   }
