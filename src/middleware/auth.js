@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const md1 = function(req, res, next){
+const authenticate = function(req, res, next){
   let token = req.headers["x-Auth-token"]
   if(!token){
     token = req.headers["x-auth-token"];
@@ -12,6 +12,10 @@ const md1 = function(req, res, next){
   if(!decodedToken){
     return res.send({Err: "invalid token"})
   }
+  next()
+}
+
+const authorise = function(req, res, next){
   const {userId} = req.params;
   if(userId == decodedToken.id){
     next()
@@ -20,4 +24,5 @@ const md1 = function(req, res, next){
   }
 }
 
-module.exports.md1 = md1
+module.exports.authenticate = authenticate
+module.exports.authorise = authorise
