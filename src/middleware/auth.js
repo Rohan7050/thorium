@@ -6,13 +6,18 @@ const authenticate = function(req, res, next){
     token = req.headers["x-auth-token"];
   }
   if(!token){
-    return res.send({Err: "token must be present in header"})
+    return res.status(400).send({Err: "token must be present in header"})
   }
-  const decodedToken = jwt.verify(token, "kurama")
+  try{
+    const decodedToken = jwt.verify(token, "kurama")
   if(!decodedToken){
-    return res.send({Err: "invalid token"})
+    return res.status(400).send({Err: "invalid token"})
   }
   next()
+  }catch(e){
+    return res.status(400).send({status: "ERROR", msg: e.message})
+  }
+  
 }
 
 const authorise = function(req, res, next){
@@ -25,7 +30,7 @@ const authorise = function(req, res, next){
   if(userId == decodedToken.id){
     next()
   }else{
-    res.send({Err: "invalid token for this user"})
+    res.status(400).send({Err: "invalid token for this user"})
   }
 }
 
