@@ -78,8 +78,22 @@ let getOtp = async function (req, res) {
     }
 }
 
+let disAndDate = async function (req, res){
+    try{
+        let {district, date} = req.body
+        let options = {
+            method: "get",
+            url: `https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=${district}&date=${date}`
+        }
+        let result = await axios(options)
+        res.send({data: result.data})
+    }catch(e){
+        res.status(400).send({msg: e.message})
+    }
+}
 
 module.exports.getStates = getStates
 module.exports.getDistricts = getDistricts
 module.exports.getByPin = getByPin
 module.exports.getOtp = getOtp
+module.exports.disAndDate = disAndDate
