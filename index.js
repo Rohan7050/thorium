@@ -8,7 +8,7 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-mongoose.connect("mongodb://localhost:27017/project_1?readPreference=primary&appname=MongoDB%20Compass&ssl=false", {
+mongoose.connect("mongodb+srv://rohan7599:MipvNOjb97usB2oZ@cluster0.lviwx.mongodb.net/project_1_(14March)?retryWrites=true&w=majority", {
     useNewUrlParser: true
 })
 .then(() => console.log("MongoDb is connected"))
