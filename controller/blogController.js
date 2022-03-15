@@ -47,7 +47,7 @@ const updateBlog = async (req, res) => {
         const blog = await blogModel.findOne({_id: id})
         // return res.send({Err: blog})
         if (!blog){
-            return res.send({Err: "blog not found"})
+            return res.send({status: false, Err: "blog not found"})
         }
         if (blog.isDeleted == true){
             return res.status(400).send({status: false, msg: "this blog is deleted"})

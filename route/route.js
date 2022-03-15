@@ -5,6 +5,7 @@ const router = express.Router()
 
 const authorController = require("../controller/authorController")
 const blogController = require("../controller/blogController")
+const mw = require("../middleWare/auth")
 
 //for test
 router.get("/test", (req, res) =>{
@@ -15,13 +16,14 @@ router.get("/test", (req, res) =>{
 
 // for author
 router.post("/authors", authorController.createAuthor)
+router.post("/login", authorController.login)
 
-//for blog
+// for blog
 router.post("/blogs", blogController.createBlog)
-router.get("/blogs", blogController.getBlog)
-router.put("/blogs/:blogId", blogController.updateBlog)
-router.delete("/blogs/:blogId", blogController.deleteBlogById)
-router.delete("/blogs", blogController.deleteBlogBykey)
+router.get("/blogs", mw.authentication, blogController.getBlog)
+router.put("/blogs/:blogId", mw.authentication, mw.authroisation1, blogController.updateBlog)
+router.delete("/blogs/:blogId", mw.authentication, mw.authroisation1, blogController.deleteBlogById)
+router.delete("/blogs", mw.authentication, mw.authroisation2, blogController.deleteBlogBykey)
 
 
 module.exports = router

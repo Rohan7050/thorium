@@ -3,7 +3,8 @@
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
-    "mongoose": "^6.2.6"
+    "mongoose": "^6.2.6",
+    "validator": "^13.7.0"
   },
   "name": "thorium",
   "description": "Repository for backend cohort - Thorium",
