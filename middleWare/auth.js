@@ -26,6 +26,9 @@ const authroisation1 = async (req, res, next) => {
     
     try{
         const blog = await blogModel.findById(data.blogId)
+        if (!blog){
+            return res.status(400).send({Err: "blog not found"})
+        }
         // return res.send({data: blog.authorId})
         const decodeedToken = jwt.verify(token, "projectOne")
         if(decodeedToken.id == blog.authorId){
@@ -48,6 +51,9 @@ const authroisation2 = async (req, res, next) => {
     
     try{
         const blog = await blogModel.findOne(data)
+        if (!blog){
+            return res.status(400).send({Err: "blog not found"})
+        }
         // return res.send({data: blog})
         const decodeedToken = jwt.verify(token, "projectOne")
         if(decodeedToken.id == blog.authorId){
