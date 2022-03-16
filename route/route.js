@@ -19,11 +19,11 @@ router.post("/authors", authorController.createAuthor)
 router.post("/login", authorController.login)
 
 // for blog
-router.post("/blogs", blogController.createBlog)
+router.post("/blogs", mw.authentication, blogController.createBlog)
 router.get("/blogs", mw.authentication, blogController.getBlog)
-router.put("/blogs/:blogId", mw.authentication, mw.authroisation1, blogController.updateBlog)
-router.delete("/blogs/:blogId", mw.authentication, mw.authroisation1, blogController.deleteBlogById)
-router.delete("/blogs", mw.authentication, mw.authroisation2, blogController.deleteBlogBykey)
+router.put("/blogs/:blogId", mw.authentication, mw.authroisation3, blogController.updateBlog)
+router.delete("/blogs/:blogId", mw.authentication, mw.authroisation3, blogController.deleteBlogById)
+router.delete("/blogs", mw.authentication, mw.authroisation3, blogController.deleteBlogBykey)
 
 
 module.exports = router

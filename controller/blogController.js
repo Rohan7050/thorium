@@ -97,6 +97,9 @@ const deleteBlogById = async (req, res) => {
 const deleteBlogBykey = async (req, res) => {
     try{
         const data = req.query
+        if (Object.keys(data).length == 0){
+            return res.status(400).send({status: false, Err: "please enter query to find blog"})
+        }
         const blog = await blogModel.findOne(data)
         if (!blog){
             return res.status(400).send({Err: "blog not found"})
