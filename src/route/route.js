@@ -25,6 +25,8 @@ router.put("/books/:bookId",mw.authentication, mw.authorisation,bookController.u
 
 router.delete("/books/:bookId",mw.authentication, mw.authorisation, bookController.deleteBook)
 
+router.post("/write-file-aws", bookController.getCoverLink)
+
 // review
 router.post("/books/:bookId/review", reviewController.createReview)
 

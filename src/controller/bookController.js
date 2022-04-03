@@ -1,9 +1,13 @@
 const moment = require("moment")
 const mongoose = require("mongoose")
 const jwt = require("jsonwebtoken")
+const axios = require("axios")
+
 const bookModel = require("../model/bookModel")
 const reviewModel = require("../model/reviewModel")
 const userModel = require("../model/userModel")
+const aws = require("./aws")
+
 
 const isValid = function (value) {
     if (typeof value === 'undefined' || value === null) return false
@@ -26,9 +30,12 @@ const isValidDate = function(releasedAt){
 let createBook = async (req, res) => {
     try {
         const requestBody = req.body;
+        // console.log("file", req.files,"body", req.body)
         if (!isValidRequestBody(requestBody)) {
             return res.status(400).send({ status: false, message: 'please provide book details' })
         }
+
+        // console.log(req.files, req.body)
         // let token = req.headers["x-api-key"];
         // let decodedToken = jwt.verify(token, 'projectthreebook')
         // requestBody.userId = decodedToken.id
@@ -86,6 +93,9 @@ let createBook = async (req, res) => {
         if (IsbnUsed) {
             return res.status(400).send({ status: false, message: "isbn already used" })
         }
+        const link = await getCoverLink(req, res)
+        // console.log(link)
+        requestBody.bookCover = link
         const newBook = await bookModel.create(requestBody)
         res.status(201).send({ status: true, message: "Success", data: newBook })
     } catch (error) {
@@ -216,11 +226,28 @@ const deleteBook = async (req, res) => {
     }
 }
 
+const getCoverLink = async (req, res) => {
+    try{
+        let files = req.files
+        if(files && files.length > 0){
+            let uploadedFileURL = await aws.uploadFile(files[0])
+            // return res.status(201).send({status: true, message: "file uploaded succesfully", data: uploadedFileURL})
+            return uploadedFileURL
+        }else{
+            return res.status(400).send({ msg: "No file found" })
+        }
+    }catch(error){
+        return res.status(500).send({ msg: err })
+    }
+}
+
+
 module.exports.getBook = getBook;
 module.exports.getBooks = getBooks
 module.exports.createBook = createBook;
 module.exports.updateBook = updateBook;
 module.exports.deleteBook = deleteBook
+module.exports.getCoverLink = getCoverLink
 
 
 

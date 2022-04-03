@@ -44,7 +44,10 @@ const bookSchema = mongoose.Schema({
     releasedAt: {
         type: Date,
         required: true
-    } 
+    },
+    bookCover: {
+        type: String
+    }
 }, {timestamps: true});
 
 module.exports = mongoose.model("Book", bookSchema)
